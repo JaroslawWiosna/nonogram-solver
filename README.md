@@ -1,0 +1,3 @@
+# nonogram-solver
+
+;-)

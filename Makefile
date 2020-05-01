@@ -4,13 +4,16 @@ DEBUG_CXXFLAGS=$(CXXFLAGS) -ggdb -O0
 LIBS=
 PROG=nonogram-solver
 DEBUG_PROG=$(PROG)_debug
-OBJS= Nonogram.o main.o Line.o Clue.o
+OBJS= \
+	  src/Nonogram.o \
+	  src/main.o \
+	  src/Line.o \
+	  src/Clue.o
 
 .PHONY: all
 all: $(PROG) Makefile
 
-Nonogram.cpp: Nonogram.hpp
-
+# TODO: Does %.cpp capture src/%.cpp?
 %.cpp: %.hpp
 
 $(PROG): $(OBJS) Makefile
@@ -21,7 +24,7 @@ $(PROG): $(OBJS) Makefile
 
 .PHONY: debug
 debug: Makefile
-	$(CXX) $(DEBUG_CXXFLAGS) -o $(DEBUG_PROG) Nonogram.cpp main.cpp Line.cpp Clue.cpp $(LIBS)
+	$(CXX) $(DEBUG_CXXFLAGS) -o $(DEBUG_PROG) src/Nonogram.cpp src/main.cpp src/Line.cpp src/Clue.cpp $(LIBS)
 
 .PHONY: run-debug
 run-debug: debug
@@ -33,11 +36,11 @@ run-debug-valgrind: debug
 
 .PHONY: format
 format: $(wildcard *.cpp) $(wildcard *.hpp) 
-	/opt/rh/llvm-toolset-7/root/usr/bin/clang-format -i *.cpp 
-	/opt/rh/llvm-toolset-7/root/usr/bin/clang-format -i *.hpp
+	/opt/rh/llvm-toolset-7/root/usr/bin/clang-format -i src/*.cpp 
+	/opt/rh/llvm-toolset-7/root/usr/bin/clang-format -i src/*.hpp
 	
 .PHONY: clean
 clean:
-	rm -rf *.o
+	rm -rf src/*.o
 	rm -rf $(PROG)
 	rm -rf $(DEBUG_PROG)
