@@ -1,0 +1,5 @@
+*.o
+
+nonogram-solver
+nonogram-solver_debug
+
